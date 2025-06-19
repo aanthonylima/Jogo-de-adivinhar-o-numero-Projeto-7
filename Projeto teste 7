@@ -1,0 +1,77 @@
+// Variáveis iniciais do jogo
+let tentativas = 1             // Contador de tentativas começa em 1, para o contador não partir de 0
+let pontos = 11                // Pontuação inicial é 11 (será reduzida imediatamente para 10 na primeira jogada)
+let novamente = "S"            // Controle para jogar novamente (S/N)
+let rodada = 0                 // Contador de rodadas
+let tabela = []                // Array/Matriz que armazenará o resumo das rodadas
+
+console.log("Bem-vindo ao jogo do Número Secreto!\n\nO objetivo é adivinhar um número entre 1 e 100 sorteado aleatoriamente pelo computador.\n\nVocê tem até 10 tentativas por rodada e começa com 10 pontos, perdendo 1 ponto a cada tentativa.\n\nA cada palpite, será informado se o número secreto é maior ou menor que o seu chute.\n\nAo final, você verá sua pontuação e pode decidir se deseja jogar novamente.\n\nBoa sorte!🍀🍀🍀")
+
+// Loop principal do jogo: continua enquanto o jogador digitar "S" ou "s"
+while (novamente === "S" || novamente === "s") {
+
+    // Gera um número aleatório entre 1 e 100
+    const numeroSecreto = Math.floor(Math.random() * 100 + 1)
+
+    // Solicita o primeiro palpite do jogador
+    let pergunta = parseInt(prompt("\nInsira um número: "))
+
+    // Verificação da primeira tentativa
+    if (pergunta !== numeroSecreto) {
+        tentativas++
+        pontos--
+    } else {
+        tentativas++
+        pontos--
+    }
+
+    // Loop de tentativa até o jogador acertar ou alcançar o limite de 10 tentativas
+    while (pergunta !== numeroSecreto && tentativas <= 10) {
+        // Diz se o palpite foi menor ou maior que o número secreto
+        if (numeroSecreto > pergunta) {
+            console.log(`${pergunta} é menor do que o número secreto!`)
+        } else if (numeroSecreto < pergunta) {
+            console.log(`${pergunta} é maior do que o número secreto!`)
+        }
+
+        // Solicita novo palpite
+        pergunta = parseInt(prompt("\nInsira um número: "))
+        tentativas++
+        pontos--
+    }
+
+    // Se o jogador acertar
+    if (pergunta === numeroSecreto) {
+        console.log("Parabéns! Você acertou! 🎉🎉🎉")
+        console.log(`\nVocê fez ${pontos} pontos e acertou na ${tentativas - 1}° tentativa!`)
+    }
+    // Se não acertar em até 10 tentativas
+    else {
+        console.log(`Infelizmente você não acertou. 😭😭😭\nO número correto era ${numeroSecreto}.`)
+        console.log(`Você fez ${pontos} pontos.`)
+    }
+
+    // Informa o número da rodada
+    rodada++
+
+    // Salva os dados da rodada na tabela
+    tabela.push({
+        Rodada: rodada,
+        Tentativas: tentativas - 1,
+        Número: numeroSecreto,
+        Pontuação: pontos
+    })
+
+    // Reinicia os valores para a próxima rodada
+    tentativas = 1
+    pontos = 10
+
+    // Pergunta se o jogador quer jogar novamente
+    novamente = prompt("\nDeseja jogar novamente? (S/N) ")
+}
+
+// Mostra o resumo de todas as rodadas jogadas após o jogador dizer que não quer jogar novamente
+console.log("\n\nResumo de jogo: ")
+console.table(tabela)
+
+console.log("\n\nObrigado por jogar o Número Secreto! 🎉 Esperamos que tenha se divertido. Até a próxima! 👋")
